@@ -1,0 +1,35 @@
+name: Deploy to Vercel (Feature)  Preview Test
+
+on:
+  push:
+    branches:
+      - feature/*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Build
+        run: npm run build
+        # Test frameworku eklendiğinde çalıştırılacak
+      # - name: Run tests
+      #   run: npm test
+
+      - name: Vercel Deploy process
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          npm install -g vercel
+          vercel --token $VERCEL_TOKEN
