@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { getJwtSecretKey } from "@/lib/actions/TokenProcess";
 import { getUserData } from "@/lib/actions/UserData";
-import { auth } from "@/lib/firebaseClient/config";
+import { initializeFirebaseClient } from "@/lib/firebaseClient/config";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -52,6 +52,7 @@ const SignInForm = () => {
 
   async function onSubmit(values: z.infer<typeof signInSchema>) {
     setPending(true);
+    const { auth } = initializeFirebaseClient();
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,

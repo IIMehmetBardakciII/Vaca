@@ -1,5 +1,5 @@
 "use client";
-import { auth } from "@/lib/firebaseClient/config";
+import { initializeFirebaseClient } from "@/lib/firebaseClient/config";
 import { signOut } from "firebase/auth";
 import Cookies from "universal-cookie";
 import { Button } from "../ui/button";
@@ -11,6 +11,7 @@ const LogOutButton = () => {
   async function handleLogOut() {
     const cookies = new Cookies();
     try {
+      const { auth } = initializeFirebaseClient();
       await signOut(auth);
       console.log("Başarıyla Çıkış yapıldı");
       toast({

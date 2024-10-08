@@ -11,7 +11,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { isUserExist } from "@/lib/actions/IsUserExist";
-import { auth } from "@/lib/firebaseClient/config";
+import { initializeFirebaseClient } from "@/lib/firebaseClient/config";
+// import { auth } from "@/lib/firebaseClient/config";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { sendPasswordResetEmail } from "firebase/auth";
@@ -40,6 +41,7 @@ const ResetPasswordForm = () => {
     // Kullanıcı var mı kontrolü from actions/IsUserExist.ts file
     const { success } = await isUserExist(values.email);
     if (success) {
+      const { auth } = initializeFirebaseClient();
       try {
         await sendPasswordResetEmail(auth, values.email);
         toast({

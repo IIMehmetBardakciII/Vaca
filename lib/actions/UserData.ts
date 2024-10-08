@@ -1,9 +1,10 @@
 "use server";
 
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../firebaseClient/config";
+import { initializeFirebaseClient } from "../firebaseClient/config";
 
 export async function getUserData(email: string) {
+  const { db } = initializeFirebaseClient();
   const userCollectionRef = collection(db, "users");
   const que = query(userCollectionRef, where("email", "==", email));
   const querySnapShot = await getDocs(que);
