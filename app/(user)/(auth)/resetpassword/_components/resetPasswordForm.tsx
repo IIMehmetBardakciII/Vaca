@@ -14,10 +14,7 @@ import { isUserExist } from "@/lib/actions/IsUserExist";
 import { auth } from "@/lib/firebaseClient/config";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  fetchSignInMethodsForEmail,
-  sendPasswordResetEmail,
-} from "firebase/auth";
+import { sendPasswordResetEmail } from "firebase/auth";
 import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";

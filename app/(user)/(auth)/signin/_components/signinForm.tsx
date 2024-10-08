@@ -52,12 +52,10 @@ const SignInForm = () => {
 
   async function onSubmit(values: z.infer<typeof signInSchema>) {
     setPending(true);
-    console.log(values.email);
-    console.log(values.password);
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
-        values.email,
+        values.email.toLowerCase(),
         values.password
       );
       console.log(userCredential.user.uid);

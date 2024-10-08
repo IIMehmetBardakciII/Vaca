@@ -2,12 +2,14 @@ import { getJwtSecretKey } from "@/lib/actions/TokenProcess";
 import { initAdmin } from "@/lib/firebaseAdmin/config";
 import { SignJWT } from "jose";
 import { NextResponse } from "next/server";
+import admin from "firebase-admin";
 
 export async function POST(req: Request) {
   // admin Sdk başlatılıcak
   initAdmin();
   // Firebase admin require yolu ile klasik nodejs yapısı olarka çağırılacka
-  const admin = require("firebase-admin");
+  // const admin = await import("firebase-admin");
+
   // Admin AUth başlatılıcak
   const adminAuth = admin.auth();
   // firestore users collectionu için çağrılacak

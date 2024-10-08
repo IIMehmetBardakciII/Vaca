@@ -12,7 +12,7 @@ export const verifyJwtToken = async (token: string) => {
     //* JWT token üçe ayrılır headers-> hashleme işlemleri , payload=datamızın olduğu yer obje şeklinde ve , secretKey=datamızı güvenliğini artırmak için.
     const { payload } = await jwtVerify(token, getJwtSecretKey());
     return payload;
-  } catch (error) {
+  } catch {
     return null;
   }
 };
