@@ -10,8 +10,12 @@ import {
   NavigationMenuTrigger,
 } from "../ui/navigation-menu";
 import Profile from "./Profile";
+import { getCookies } from "@/lib/actions/Cookies";
+import LogOutButton from "../utilities/LogOutButton";
 
-const Navbar = () => {
+const Navbar = async () => {
+  const { verifiedToken, success } = await getCookies();
+
   return (
     <header className="flex  items-center justify-between ">
       {/* logo */}
@@ -69,15 +73,33 @@ const Navbar = () => {
             </NavigationMenuList>
           </NavigationMenu>
         </div>
-        <Button asChild className="sm:block hidden">
-          <Link href="/signup">Kayıt Ol</Link>
-        </Button>
-        <Button variant={"outline"} asChild className="sm:block hidden">
-          <Link href="/signin">Giriş Yap</Link>
-        </Button>
+        {success ? (
+          <LogOutButton />
+        ) : (
+          <>
+            <Button asChild className="sm:block hidden">
+              <Link href="/signup">Kayıt Ol</Link>
+            </Button>
+            <Button variant={"outline"} asChild className="sm:block hidden">
+              <Link href="/signin">Giriş Yap</Link>
+            </Button>
+          </>
+        )}
         {/* Profile Avatar  */}
         <div>
-          <Profile />
+          <Profile
+            profilePicture={
+              typeof verifiedToken?.profilePicture === "string"
+                ? verifiedToken.profilePicture
+                : undefined
+            }
+            hasProfile={success}
+            email={
+              typeof verifiedToken?.email === "string"
+                ? verifiedToken.email
+                : undefined
+            }
+          />
         </div>
       </div>
     </header>
