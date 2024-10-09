@@ -16,23 +16,28 @@ const Profile = ({ profilePicture, hasProfile, email }: ProfileProps) => {
 
   return (
     <div>
-      {/* Avatar */}
-      {profilePicture ? (
-        <Image
-          src={profilePicture}
-          alt="profile"
-          className="w-8 h-8 rounded-full cursor-pointer border"
-          onClick={() => setOpen((current) => !current)}
-        />
-      ) : (
-        <div>
-          <CircleUserRound
-            size={32}
-            className="cursor-pointer"
+      <div className="w-8 h-8 relative">
+        {/* Avatar */}
+        {profilePicture ? (
+          <Image
+            src={profilePicture}
+            alt="profile"
+            // width={32}
+            // height={32}
+            fill
+            className=" rounded-full cursor-pointer border object-cover"
             onClick={() => setOpen((current) => !current)}
           />
-        </div>
-      )}
+        ) : (
+          <div>
+            <CircleUserRound
+              size={32}
+              className="cursor-pointer"
+              onClick={() => setOpen((current) => !current)}
+            />
+          </div>
+        )}
+      </div>
 
       {/* Content */}
       {open && (
