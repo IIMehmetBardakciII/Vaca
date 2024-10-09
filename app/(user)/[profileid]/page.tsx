@@ -1,6 +1,4 @@
 import { getUserData } from "@/lib/actions/UserData";
-import { CircleUserRound } from "lucide-react";
-import Image from "next/image";
 import ProfilePicture from "./_components/ProfilePicture";
 
 const ProfilePage = async ({ params }: { params: { profileid: string } }) => {

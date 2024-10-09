@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { toast, useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { updateUserData } from "@/lib/actions/UpdateUserData";
 import { initializeFirebaseClient } from "@/lib/firebaseClient/config";
 import {
@@ -134,10 +134,7 @@ const ProfilePicture = ({
       {selectedImage && (
         <div className="flex gap-2 mt-2">
           <Button onClick={saveNewProfilePicture}>Profili Kaydet</Button>
-          <Button
-            onClick={() => setSelectedImage((current) => "")}
-            variant={"destructive"}
-          >
+          <Button onClick={() => setSelectedImage("")} variant={"destructive"}>
             İptal
           </Button>
         </div>
