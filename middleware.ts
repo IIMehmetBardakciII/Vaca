@@ -40,6 +40,16 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", url));
   }
 
+  if (nextUrl.pathname === "/create-academy") {
+    if (!hasVerifiedToken) {
+      //* Burda searchparams ile queryi tutuyoruz ki eğer kişi tokenı yoksa ve token ihtiyacı olan bir yere gitmek istiyorsa önce işlemi yapıp sonra kaldığı yerden devam edebilsin.
+      const searchParams = new URLSearchParams(nextUrl.searchParams); // içeriğini eğer searchParamsla uygularsak gitmek isteidği yerdeki queryleride tutmuş oluruz.
+      searchParams.set("next", nextUrl.pathname);
+      return NextResponse.redirect(new URL(`/signin?${searchParams}`, url));
+    }
+    return NextResponse.next();
+  }
+
   if (!hasVerifiedToken) {
     //* Burda searchparams ile queryi tutuyoruz ki eğer kişi tokenı yoksa ve token ihtiyacı olan bir yere gitmek istiyorsa önce işlemi yapıp sonra kaldığı yerden devam edebilsin.
     const searchParams = new URLSearchParams(nextUrl.searchParams); // içeriğini eğer searchParamsla uygularsak gitmek isteidği yerdeki queryleride tutmuş oluruz.
@@ -54,7 +64,7 @@ export default async function middleware(request: NextRequest) {
 //* Middleware ın işleyeceği url pathnameler.
 //* Bu url lerden herhangi birinden get , post gibi request işlemi yapacak olursa araya girip önce middleware içeriğini çalıştırır sonra devam eder.
 export const config = {
-  matcher: ["/signin", "/signup"],
+  matcher: ["/signin", "/signup", "/create-academy"],
   unstable_allowDynamic: [
     // use a glob to allow anything in the function-bind 3rd party module
     "/node_modules/function-bind/**",

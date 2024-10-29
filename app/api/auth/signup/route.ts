@@ -55,7 +55,7 @@ export async function POST(req: Request) {
           })
             .setProtectedHeader({ alg: "HS256" })
             .setIssuedAt()
-            .setExpirationTime("1 days")
+            .setExpirationTime("4 hours")
             .sign(getJwtSecretKey());
 
           //* Dönecek Responseu oluşturma
