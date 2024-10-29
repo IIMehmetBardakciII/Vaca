@@ -1,16 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import Stripe from "stripe";
 
 import { uploadImageToFirebase } from "@/lib/actions/uploadImage";
-
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error("Stripe Secret Key is not found");
-}
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2024-09-30.acacia",
-});
+import { initStripeInstance } from "@/lib/Stripe/initStripeInstance";
 
 export async function POST(req: NextRequest) {
+  const stripe = initStripeInstance();
   console.log("Create Checkout Api Sayfasında Post işlemi Kontrolü");
 
   const formData = await req.formData();
