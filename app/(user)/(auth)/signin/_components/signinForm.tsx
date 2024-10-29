@@ -78,8 +78,16 @@ const SignInForm = () => {
         title: "Giriş İşlemi Başarılı",
         description: "Vaca'ya Tekrardan Hoşgeldin.",
       });
-      router.push("/");
+
+      // next parametresini kontrol et
+      const urlParams = new URLSearchParams(window.location.search);
+      const next = urlParams.get("next") || "/"; // Eğer 'next' yoksa ana sayfaya yönlendir
+      const decodedNext = decodeURIComponent(next); // URL çözümlemesi
+      console.log("Decoded Next URL:", decodedNext); // Konsola yazdır
+      router.push(decodedNext);
       window.location.reload();
+
+      // window.location.reload();
     } catch (error: any) {
       console.error("Giriş ilemi sırasında hata oluştu", error.message);
       setPending(false);
