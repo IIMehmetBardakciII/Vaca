@@ -12,6 +12,7 @@ export async function getUserData(email: string) {
     const userData = querySnapShot.docs[0].data();
     return {
       email: userData.email,
+      uid: userData.uid,
       username: userData.username,
       profilePicture: userData.profilePicture,
       virtualAcademies: userData.virtualAcademies,

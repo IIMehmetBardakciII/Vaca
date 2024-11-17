@@ -3,19 +3,39 @@ import { NextRequest, NextResponse } from "next/server";
 import admin from "firebase-admin";
 import { getCookies } from "@/lib/actions/Cookies";
 import { updateUserDocForVirtualAcademy } from "@/lib/actions/UpdateUserData";
-export async function POST(req: NextRequest) {
-  console.log("Create Academey Api Sayfasında Post işlemi Kontrolü");
 
-  const data = await req.json();
-  const academyName = data.academyName;
-  const academyAbout = data.academyAbout;
-  const numberOfStudents = data.numberOfStudents;
-  const imageFileUrl = data.imageFileUrl;
+export async function POST(req: NextRequest) {
+  console.log("Create Academy API - POST request initiated");
 
   try {
+    // Giriş yapmış kullanıcının doğrulanması
     initAdmin();
+    const { verifiedToken } = await getCookies();
+    if (!verifiedToken || !verifiedToken.email) {
+      return NextResponse.json(
+        { error: "Authentication failed. User is not verified." },
+        { status: 401 }
+      );
+    }
+
+    // Gelen veri kontrolü
+    const data = await req.json();
+    const { academyName, academyAbout, numberOfStudents, imageFileUrl } = data;
+
+    if (!academyName || !academyAbout || !numberOfStudents) {
+      return NextResponse.json(
+        {
+          error:
+            "Missing required fields: academyName, academyAbout, numberOfStudents.",
+        },
+        { status: 400 }
+      );
+    }
+
     const adminDb = admin.firestore();
     const academyRef = adminDb.collection("virtualAcademies");
+
+    // Yeni akademi belgesi oluşturulması
     const virtualAcademyData = {
       academyAbout,
       academyName,
@@ -24,28 +44,38 @@ export async function POST(req: NextRequest) {
       announcement: "",
       announcementDeadLine: null,
       createdAt: admin.firestore.Timestamp.now(),
+      members: [
+        {
+          userId: verifiedToken.email as string,
+          role: "Rektor",
+        },
+      ],
+      joinRequests: [],
+      virtualClass: [],
     };
+
     const virtualAcademyDoc = await academyRef.add(virtualAcademyData);
     const virtualAcademyId = virtualAcademyDoc.id;
-    const { verifiedToken } = await getCookies();
-    if (verifiedToken) {
-      const { success } = await updateUserDocForVirtualAcademy(
-        verifiedToken.email as string,
-        virtualAcademyId
+
+    // Kullanıcı belgesinde akademi ID'si güncellenmesi
+    const { success } = await updateUserDocForVirtualAcademy(
+      verifiedToken.email as string,
+      virtualAcademyId
+    );
+
+    if (success) {
+      return NextResponse.json({ virtualAcademyId });
+    } else {
+      console.error("Failed to update user data in users collection.");
+      return NextResponse.json(
+        {
+          error: "User data update failed in /api/create-academy.",
+        },
+        { status: 400 }
       );
-      if (success) {
-        return NextResponse.json({ virtualAcademyId });
-      } else {
-        return NextResponse.json(
-          {
-            error:
-              "Kullanıcı verisi Güncellenemedi bu hata api/create-academy yerinden geliyor.",
-          },
-          { status: 400 }
-        );
-      }
     }
   } catch (error: any) {
+    console.error("Error in create academy:", error.message);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

@@ -66,6 +66,7 @@ const SignInForm = () => {
         email: userData.email,
         username: userData.username,
         profilePicture: userData.profilePicture,
+        uid: userData.uid,
       })
         .setProtectedHeader({ alg: "HS256" })
         .setIssuedAt()
