@@ -1,5 +1,3 @@
-import { Search } from "lucide-react";
-import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import {
@@ -17,7 +15,7 @@ const Navbar = async () => {
   const { verifiedToken, success } = await getCookies();
 
   return (
-    <header className="flex  items-center justify-between ">
+    <header className="flex  items-center justify-between relative z-[50] ">
       {/* logo */}
       <div className="cursor-pointer">
         <Link href={"/"}>
@@ -33,13 +31,10 @@ const Navbar = async () => {
       {/* Profil Avatar */}
       <div className="flex gap-2 items-center">
         {/* SearchBar */}
-        <div className="sm:relative hidden">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="search"
-            placeholder="Search..."
-            className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
-          />
+        <div className="sm:relative ">
+          <Button asChild variant={"ghost"} className="sm:block hidden">
+            <Link href="/">Anasayfa</Link>
+          </Button>
         </div>
         {/* DropDown Menu */}
         <div className="sm:block hidden">
@@ -48,7 +43,7 @@ const Navbar = async () => {
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Sanal Akademi</NavigationMenuTrigger>
                 <NavigationMenuContent className="">
-                  <ul className="flex flex-col w-[300px] p-4 gap-2 ">
+                  <ul className="flex flex-col w-[300px]  p-4 gap-2 ">
                     <li className="hover:bg-secondary">
                       <Link href="/create-academy" className="font-bold">
                         Sanal Akademini Oluştur

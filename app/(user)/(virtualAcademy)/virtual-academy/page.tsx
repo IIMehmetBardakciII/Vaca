@@ -16,7 +16,7 @@ const VirtualAcademyPage = () => {
           <Link href="/find-academy" className="font-bold">
             Sanal Akademini Bul
             <span className="block text-xs font-light">
-              Sana oluşturulan Akademiler ile eşsiz yeteneklere sahip ol ,
+              Sanal oluşturulan Akademiler ile eşsiz yeteneklere sahip ol ,
               topluluklara katılarak kendini geliştir.
             </span>
           </Link>

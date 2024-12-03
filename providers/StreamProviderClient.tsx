@@ -44,7 +44,13 @@ const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
     };
 
     initializeClient();
-  }, [userData, status]);
+    // Cleanup: component unmount olduğunda video client'ı kapat
+    return () => {
+      if (videoClient) {
+        videoClient.disconnectUser(); // Bağlantıyı kes
+      }
+    };
+  }, [status]);
 
   if (!videoClient) return <Loader className="animate-spin" />;
   return <StreamVideo client={videoClient}>{children}</StreamVideo>;
