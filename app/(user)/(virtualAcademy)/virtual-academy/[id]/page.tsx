@@ -1,10 +1,8 @@
-import CreateClass from "@/components/organism/CreateClass";
-import { Button } from "@/components/ui/button";
+import AcademyNav from "@/components/organism/AcademyNav";
+import GlobalChat from "@/components/organism/GlobalChat";
 import { getRole } from "@/lib/actions/AcademyRole";
 import { getVirtualAcademyData } from "@/lib/actions/getVirtualAcademyData";
-import { Bell, CircleX, Merge, MessageCircleMore } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
 const AcademyDashboard = async ({ params }: { params: { id: string } }) => {
   const [virtualAcademyData, role] = await Promise.all([
@@ -19,98 +17,26 @@ const AcademyDashboard = async ({ params }: { params: { id: string } }) => {
     return <div>Academy Bulunamadı</div>;
   }
 
+  const { id, academyName, members, imageFileUrl } = virtualAcademyData;
+
   return (
-    <div className="flex mt-2">
-      {/* Sidebar */}
-      <div className="border-r rounded-md w-fit  h-[calc(100%-40px)] fixed overflow-hidden bg-secondary gap-4 justify-between p-4 max-w-[200px] flex flex-col ">
-        <div className="flex flex-col gap-4">
-          <div>
-            {virtualAcademyData.imageFileUrl && (
-              <div className="w-8 h-8 rounded-full relative">
-                <Image
-                  src={virtualAcademyData.imageFileUrl}
-                  alt={`${virtualAcademyData.academyName} Image`}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            )}
-            <small className="text-sm font-medium leading-none cursor-pointer">
-              {virtualAcademyData.academyName}
-            </small>
-            <p className="text-xs text-muted-foreground">
-              {virtualAcademyData.academyAbout}
-            </p>
-            <small className="text-sm font-medium leading-none cursor-pointer flex gap-1 mt-2">
-              Üye Sayısı:{" "}
-              <span className="text-muted-foreground">
-                {virtualAcademyData.members?.length}/
-                {virtualAcademyData.numberOfStudents}
-              </span>
-            </small>
-          </div>
-
-          {role === "Rektor" && (
-            <Button asChild className="justify-start bg-blue-600">
-              <Link
-                href={`/virtual-academy/${virtualAcademyData.id}/requestForJoin`}
-                className="flex gap-2"
-              >
-                <Bell size={16} />
-                Katılma İsteği ({virtualAcademyData.joinRequests.length})
-              </Link>
-            </Button>
-          )}
-          {(role === "Rektor" || role === "Educator") && (
-            <CreateClass academyId={virtualAcademyData.id} />
-          )}
-
-          <Button asChild className="justify-start">
-            <Link
-              href={`/virtual-academy/${virtualAcademyData.id}/virtualClasses`}
-              className="flex gap-2 bg-orange-600"
-            >
-              <Merge size={16} />
-              Derslere Katıl
-            </Link>
-          </Button>
-          <Button asChild className="justify-start">
-            <Link
-              href={`/virtual-academy/${virtualAcademyData.id}/duyurular`}
-              className="flex gap-2"
-            >
-              <Bell size={16} />
-              Duyurular
-            </Link>
-          </Button>
-          <Button asChild className="justify-start">
-            <Link href="#" className="flex gap-2">
-              <MessageCircleMore size={16} />
-              <span>Chat</span>
-            </Link>
-          </Button>
-        </div>
-        <Button asChild variant={"destructive"} className="justify-start">
-          <Link href="#" className="flex items-center gap-2 mb-2">
-            <CircleX size={16} />
-            <span>Akademiden Ayrıl</span>
-          </Link>
-        </Button>
-      </div>
+    <div className="h-[4000px] relative">
+      {/* AcademyNav */}
+      <AcademyNav role={role} virtualAcademyData={virtualAcademyData} />
       {/* For Post & Chat Area */}
-      <div className="flex flex-1 ml-[200px] ">
+      <div className="flex flex-1  relative h-full mt-10 ">
+        {/* SuccessLearnerArea & OtherAcademies */}
+        <div className="w-[300px] bottom-4 flex-col flex gap-2 items-center fixed left-4 top-[120px]">
+          {/* Diğer akademilerim */}
+          <span>Diğer Akademilerim</span>
+          <div className="w-full h-[300px] border rounded-md"></div>
+          <span>Başarılı Öğrenciler</span>
+          <div className="w-full h-[300px] border rounded-md"></div>
+        </div>
         {/* PostArea */}
-        <div className=" w-3/4 gap-5 flex flex-col  items-center p-2">
+        <div className=" flex-[3] gap-5 flex flex-col  items-center  ml-[500px] mr-[200px] right-10 relative ">
           {/* SinglePost */}
-          <div className="w-2/4 h-[400px] bg-secondary relative rounded-md">
-            <Image
-              src={"/deneme.jpg"}
-              alt="AcademyPic"
-              fill
-              className="object-cover rounded-md"
-            />
-          </div>
-          <div className="w-2/4 h-[400px] bg-secondary relative rounded-md">
+          <div className="w-3/4 h-[400px] bg-secondary relative rounded-md">
             <Image
               src={"/deneme.jpg"}
               alt="AcademyPic"
@@ -121,8 +47,10 @@ const AcademyDashboard = async ({ params }: { params: { id: string } }) => {
         </div>
 
         {/* ChatArea */}
-        <div className="w-1/4 bg-slate-200 rounded-md p-2 h-[600px]">
-          Chat Alanı
+        <div className="flex-[1]  ">
+          <GlobalChat
+            virtualAcademyData={{ id, academyName, members, imageFileUrl }}
+          />
         </div>
       </div>
     </div>

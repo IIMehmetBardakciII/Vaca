@@ -16,7 +16,7 @@ const CreateClass = ({ academyId }: createClassType) => {
     <>
       <Button
         asChild
-        className="justify-start bg-lime-600"
+        className="justify-start hover:bg-lime-600"
         onClick={() => setModalState(true)}
       >
         <p className="flex gap-2 cursor-pointer">

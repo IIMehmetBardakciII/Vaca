@@ -4,6 +4,7 @@ import Navbar from "@/components/organism/Navbar";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/toaster";
 import "@stream-io/video-react-sdk/dist/css/styles.css";
+import "stream-chat-react/dist/css/v2/index.css";
 
 export const metadata: Metadata = {
   title: "Vaca",
