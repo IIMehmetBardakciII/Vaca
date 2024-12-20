@@ -35,6 +35,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
+    "react-quill": "^2.0.0",
     "stream-chat": "^8.45.1",
     "stream-chat-react": "^12.6.0",
     "stripe": "^17.2.0",

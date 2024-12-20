@@ -10,7 +10,7 @@ const AcademyDashboard = async ({ params }: { params: { id: string } }) => {
   const [virtualAcademyData, role, posts] = await Promise.all([
     getVirtualAcademyData(params.id),
     getRole(params.id),
-    getVirtualAcademyPosts(params.id, "Posts"),
+    getVirtualAcademyPosts(params.id, "ForumPosts"),
   ]);
   // const virtualAcademyData = getVirtualAcademyData(params.id);
   // const role = getRole(params.id);
@@ -46,12 +46,11 @@ const AcademyDashboard = async ({ params }: { params: { id: string } }) => {
         {/* PostArea */}
         <div className=" flex-[1]  gap-5 flex flex-col  items-center   relative ">
           {/* CreatePostModal */}
-          {(role === "Rektor" || role === "Educator") && (
-            <CreatePost
-              virtualAcademyId={virtualAcademyData.id}
-              collectionName="Posts"
-            />
-          )}
+
+          <CreatePost
+            virtualAcademyId={virtualAcademyData.id}
+            collectionName="ForumPosts"
+          />
 
           {posts.length > 0
             ? posts.map((post) => (
@@ -59,7 +58,7 @@ const AcademyDashboard = async ({ params }: { params: { id: string } }) => {
                   key={post.postId}
                   postData={post}
                   virtualAcademyId={virtualAcademyData.id}
-                  collectionName="Posts"
+                  collectionName="ForumPosts"
                 />
               ))
             : ""}
