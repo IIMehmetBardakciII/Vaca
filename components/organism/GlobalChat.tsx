@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Channel,
   MessageList,
@@ -8,6 +8,7 @@ import {
   Thread,
   Window,
   useChatContext,
+  ChannelHeader,
 } from "stream-chat-react";
 
 import { EmojiPicker } from "stream-chat-react/emojis";
@@ -31,6 +32,10 @@ const GlobalChat = ({ virtualAcademyData }: GlobalChatProps) => {
   const [channelId, setChannelId] = useState<any>(null);
   const { client: chatClient } = useChatContext();
   const [openChat, setOpenChat] = useState<boolean>(false);
+
+  // Chat dışında bir yere tıklanıldığında chat'i kapat
+  // const chatRef = useRef<HTMLDivElement>(null); // Chat penceresi referansı
+  // useClickOutside(chatRef, () => setOpenChat(false));
 
   useEffect(() => {
     const initializationChannel = async () => {
@@ -75,9 +80,10 @@ const GlobalChat = ({ virtualAcademyData }: GlobalChatProps) => {
       </div>
 
       <div
+        // ref={chatRef}
         className={cn(
           openChat ? "block" : "hidden",
-          "border rounded-md   fixed right-4 z-40 top-[120px] h-[600px]"
+          "border rounded-md   fixed right-4 z-40 top-[90px] h-[630px]"
         )}
       >
         <div
