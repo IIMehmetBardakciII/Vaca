@@ -1,6 +1,5 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { getPostComments } from "@/lib/actions/getPostComments";
 import { ExternalLink } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";

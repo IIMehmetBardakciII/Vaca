@@ -33,10 +33,10 @@ const CreatePost = ({ virtualAcademyId, collectionName }: CreatePostType) => {
         </span>
       </div>
       <div>
-        {openPostForm && (
+        {openPostForm && userData?.email && (
           <PostForm
             collectionName={collectionName}
-            userEmail={userData?.email!}
+            userEmail={userData?.email}
             virtualAcademyId={virtualAcademyId}
             open={openPostForm}
             onClose={() => setOpenPostForm(false)}

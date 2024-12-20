@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Channel,
   MessageList,
@@ -8,7 +8,6 @@ import {
   Thread,
   Window,
   useChatContext,
-  ChannelHeader,
 } from "stream-chat-react";
 
 import { EmojiPicker } from "stream-chat-react/emojis";
