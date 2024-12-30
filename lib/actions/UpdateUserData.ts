@@ -1,20 +1,15 @@
 "use server";
 
-import {
-  collection,
-  doc,
-  getDocs,
-  query,
-  updateDoc,
-  where,
-} from "firebase/firestore";
-import { initializeFirebaseClient } from "../firebaseClient/config";
+import { doc, updateDoc } from "firebase/firestore";
+import { handleGetUserDoc } from "./UserData";
 
 export async function updateUserData(profilePictureUrl: string, email: string) {
-  const { db } = initializeFirebaseClient();
-  const userCollectionRef = collection(db, "users");
-  const que = query(userCollectionRef, where("email", "==", email));
-  const querySnapShot = await getDocs(que);
+  // const { db } = initializeFirebaseClient();
+  // const userCollectionRef = collection(db, "users");
+  // const que = query(userCollectionRef, where("email", "==", email));
+  // const querySnapShot = await getDocs(que);
+  const { querySnapShot, db } = await handleGetUserDoc(email);
+
   //   Firestore'da belirli bir dokümanı güncellemek için önce dokümanın id'sini almak gerekiyor.
   if (!querySnapShot.empty) {
     const userDoc = querySnapShot.docs[0];
@@ -41,10 +36,11 @@ export async function updateUserDocForVirtualAcademy(
   email: string,
   virtualAcademyId: string
 ) {
-  const { db } = initializeFirebaseClient();
-  const userCollectionRef = collection(db, "users");
-  const que = query(userCollectionRef, where("email", "==", email));
-  const querySnapShot = await getDocs(que);
+  // const { db } = initializeFirebaseClient();
+  // const userCollectionRef = collection(db, "users");
+  // const que = query(userCollectionRef, where("email", "==", email));
+  const { querySnapShot, db } = await handleGetUserDoc(email);
+
   if (!querySnapShot.empty) {
     const userDoc = querySnapShot.docs[0];
     const userDocRef = doc(db, "users", userDoc.id);

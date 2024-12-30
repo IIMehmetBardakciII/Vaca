@@ -80,3 +80,15 @@ export const rejectedJoinRequest = async (
   }
   return { success: false };
 };
+
+export const getAllMembers = async (academyId: string) => {
+  const { db } = initializeFirebaseClient();
+  const virtualAcademiesDocRef = doc(db, "virtualAcademies", academyId);
+  const docSnapShot = await getDoc(virtualAcademiesDocRef);
+  if (docSnapShot.exists()) {
+    const currentData = docSnapShot.data();
+    return currentData.members || [];
+  } else {
+    throw new Error("Users not found");
+  }
+};
