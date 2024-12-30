@@ -44,7 +44,7 @@ const Post = async ({
       ? postData.createdAt.toDate() // Firebase Timestamp'ten Date objesine dönüştürme
       : new Date(); // Eğer geçerli değilse, bugünün tarihini al
   return (
-    <div className="w-full relative h-fit bg-gray-50  rounded-md border">
+    <div className="w-full relative h-fit bg-gray-50  rounded-md border z-10">
       <div className="p-4">
         <div className="flex gap-4 mb-4 h-[80px]  items-center">
           <div className="w-[80px] h-full relative rounded-full bg-slate-200 ">

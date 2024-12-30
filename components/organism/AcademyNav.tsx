@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Bell, BookOpen, ChartSpline, CircleX, Merge } from "lucide-react";
+import { Bell, BookOpen, ChartSpline, Merge, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import CreateClass from "./CreateClass";
@@ -9,6 +9,7 @@ import useUser from "@/lib/hooks/useUser";
 import { useEffect, useState } from "react";
 import { getUserData } from "@/lib/actions/UserData";
 import { getVirtualAcademyData } from "@/lib/actions/getVirtualAcademyData";
+import LeaveTheAcademy from "./LeaveTheAcademy";
 
 interface AcademyNavProps {
   role: string;
@@ -100,18 +101,29 @@ const AcademyNav = ({
             </small>
           </div>
         </div>
-        <div className="flex flex-col justify-between h-full">
-          <div className="flex flex-col  gap-4">
+        <div className="flex flex-col justify-between h-full w-full">
+          <div className="flex flex-col  gap-2">
             {role === "Rektor" && (
-              <Button asChild className="justify-start hover:bg-blue-600">
-                <Link
-                  href={`/virtual-academy/${id}/requestForJoin`}
-                  className="flex gap-2"
-                >
-                  <Bell size={16} />
-                  Katılma İsteği ({joinRequests.length})
-                </Link>
-              </Button>
+              <div className="flex flex-col  gap-2">
+                <Button asChild className="justify-start hover:bg-blue-600 ">
+                  <Link
+                    href={`/virtual-academy/${id}/requestForJoin`}
+                    className="flex gap-2"
+                  >
+                    <Bell size={16} />
+                    Katılma İsteği ({joinRequests.length})
+                  </Link>
+                </Button>
+                <Button asChild className="justify-start hover:bg-blue-600">
+                  <Link
+                    href={`/virtual-academy/${id}/getAllUsers`}
+                    className="flex gap-2"
+                  >
+                    <Users size={16} />
+                    Tüm Üyeleri Gör
+                  </Link>
+                </Button>
+              </div>
             )}
             {(role === "Rektor" || role === "Educator") && (
               <CreateClass academyId={id} />
@@ -162,15 +174,12 @@ const AcademyNav = ({
               </Link>
             </Button>
           </div>
-          <Button asChild className="justify-start ">
-            <Link
-              href="#"
-              className="flex  items-center gap-2 hover:bg-red-500 "
-            >
-              <CircleX size={16} />
-              <span>Akademiden Ayrıl</span>
-            </Link>
-          </Button>
+          {/* Leave the academy */}
+          <LeaveTheAcademy
+            academyId={id}
+            Role={role}
+            userId={userData?.email as string}
+          />
         </div>
         {isDropdownVisible && (
           <div
