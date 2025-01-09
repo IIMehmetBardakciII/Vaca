@@ -2,7 +2,6 @@
 import { cn } from "@/lib/utils";
 import { Timestamp } from "firebase/firestore";
 import { BadgeCheck, Copy } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Button } from "../ui/button";

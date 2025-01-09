@@ -6,7 +6,7 @@ import { initializeFirebaseClient } from "../firebaseClient/config";
 type VirtualClass = {
   id: string;
   description: string;
-  startsAt: String | Timestamp | Date; // Firestore'dan gelen veriler Timestamp formatında olabilir
+  startsAt: string | Timestamp | Date; // Firestore'dan gelen veriler Timestamp formatında olabilir
 };
 export async function getVirtualClasses(virtualAcademyId: string) {
   const { db } = initializeFirebaseClient();

@@ -2,10 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import {
-  AlarmClock,
   Bell,
   BookOpen,
-  ChartSpline,
   CircleArrowOutUpRight,
   Merge,
   Users,

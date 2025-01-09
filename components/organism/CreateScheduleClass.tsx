@@ -9,7 +9,6 @@ import { Call, useStreamVideoClient } from "@stream-io/video-react-sdk";
 import { toast } from "@/hooks/use-toast";
 import { updateVirtualAcademyDocForVirtualClass } from "@/lib/actions/updateVirtualAcademyForVirtualClass";
 import useUser from "@/lib/hooks/useUser";
-import router from "next/router";
 // import { tr } from "date-fns/locale"; // Türkçe dili
 
 interface ScheduleValues {
