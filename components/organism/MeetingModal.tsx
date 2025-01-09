@@ -1,15 +1,15 @@
 "use client";
 
-import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useStreamVideoClient } from "@stream-io/video-react-sdk";
 import useUser from "@/lib/hooks/useUser";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { DialogTitle } from "@radix-ui/react-dialog";
 import { useToast } from "@/hooks/use-toast";
 import { updateVirtualAcademyDocForVirtualClass } from "@/lib/actions/updateVirtualAcademyForVirtualClass";
+import GeneralModal from "./GeneralModal";
+import { PencilRuler } from "lucide-react";
 
 type MeetingModalProps = {
   open: boolean;
@@ -65,20 +65,24 @@ const MeetingModal = ({ open, onClose, academyId }: MeetingModalProps) => {
     }
   };
   return (
-    <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent>
-        <DialogTitle>Sanal Ders Oluşturma</DialogTitle>
+    <GeneralModal open={open} onClose={onClose}>
+      <div className="flex flex-col gap-2">
+        <h3 className="scroll-m-20 text-2xl flex items-center gap-2 font-semibold tracking-tight">
+          Dersi Oluştur <PencilRuler size={20} />
+        </h3>
         <Input
           placeholder="Dersin Konusunu Giriniz..."
           className="focus-visible:outline-none focus-visible:ring-0"
           onChange={(e) => setTopic(e.target.value)}
           value={topic}
         />
-        <Button onClick={createMeeting} className="bg-blue-500">
-          Dersi Oluştur
-        </Button>
-      </DialogContent>
-    </Dialog>
+        <div className="flex justify-end">
+          <Button onClick={createMeeting} className="bg-blue-500  ">
+            Dersi Oluştur
+          </Button>
+        </div>
+      </div>
+    </GeneralModal>
   );
 };
 

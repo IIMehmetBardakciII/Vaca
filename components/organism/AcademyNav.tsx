@@ -1,7 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Bell, BookOpen, ChartSpline, Merge, Users } from "lucide-react";
+import {
+  Bell,
+  BookOpen,
+  CircleArrowOutUpRight,
+  Merge,
+  Users,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import CreateClass from "./CreateClass";
@@ -10,6 +16,7 @@ import { useEffect, useState } from "react";
 import { getUserData } from "@/lib/actions/UserData";
 import { getVirtualAcademyData } from "@/lib/actions/getVirtualAcademyData";
 import LeaveTheAcademy from "./LeaveTheAcademy";
+import CreateScheduleClass from "./CreateScheduleClass";
 
 interface AcademyNavProps {
   role: string;
@@ -126,7 +133,10 @@ const AcademyNav = ({
               </div>
             )}
             {(role === "Rektor" || role === "Educator") && (
-              <CreateClass academyId={id} />
+              <div className="flex flex-col gap-2">
+                <CreateClass academyId={id} />
+                <CreateScheduleClass academyId={id} />
+              </div>
             )}
 
             <Button asChild className="justify-start">
@@ -149,19 +159,11 @@ const AcademyNav = ({
                 href={`/virtual-academy/${id}/discussion`}
                 className="flex gap-2"
               >
-                <Bell size={16} />
-                Tartışma
+                <CircleArrowOutUpRight size={16} />
+                Gönderi Paylaş
               </Link>
             </Button>
-            <Button asChild className="justify-start">
-              <Link
-                href="#"
-                className="flex items-center gap-2 hover:bg-red-500 "
-              >
-                <ChartSpline size={16} />
-                <span>Başarılı Öğrenciler</span>
-              </Link>
-            </Button>
+
             <Button asChild className="justify-start">
               <Link
                 href="#"

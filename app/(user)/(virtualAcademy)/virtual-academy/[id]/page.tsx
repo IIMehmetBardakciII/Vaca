@@ -5,6 +5,7 @@ import Post from "@/components/organism/Post/Post";
 import { getRole } from "@/lib/actions/AcademyRole";
 import { getVirtualAcademyData } from "@/lib/actions/getVirtualAcademyData";
 import { getVirtualAcademyPosts } from "@/lib/actions/getVirtualAcademyPosts";
+import "react-datepicker/dist/react-datepicker.css";
 
 const AcademyDashboard = async ({ params }: { params: { id: string } }) => {
   const [virtualAcademyData, role, posts] = await Promise.all([
