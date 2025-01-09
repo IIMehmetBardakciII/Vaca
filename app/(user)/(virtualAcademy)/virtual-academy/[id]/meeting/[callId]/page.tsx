@@ -81,12 +81,14 @@ const Meeting = ({ params }: { params: { id: string; callId: string } }) => {
               ? " stroke-green-400 hover:stroke-primary"
               : " stroke-primary hover:stroke-green-400"
           )}
-          onClick={() => SetopenChat((currentState) => !currentState)}
+          onClick={() => {
+            SetopenChat((currentState) => !currentState);
+          }}
         />
         <div
           className={cn(
             "w-[300px] h-[calc(100%-100px)] hidden",
-            openChat && "visible"
+            openChat && "block"
           )}
         >
           <Channel

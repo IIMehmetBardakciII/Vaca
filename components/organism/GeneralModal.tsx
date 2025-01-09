@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { useRef, useEffect } from "react";
 
 type GeneralModalType = {
@@ -18,10 +19,21 @@ const GeneralModal = ({
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
+    const dialog = dialogRef.current;
     if (open) {
-      dialogRef.current?.showModal();
+      dialog?.showModal();
+      requestAnimationFrame(() => {
+        if (dialog) {
+          dialog.style.opacity = "1";
+          dialog.style.transform = "scale(1)";
+        }
+      });
     } else {
-      dialogRef.current?.close();
+      if (dialog) {
+        dialog.style.opacity = "0";
+        dialog.style.transform = "scale(0.9)";
+        setTimeout(() => dialog.close(), 100); // Animasyon süresine eşit olmalı
+      }
     }
   }, [open]);
 
@@ -29,12 +41,20 @@ const GeneralModal = ({
     <dialog
       ref={dialogRef}
       onCancel={onClose}
-      className={`backdrop:bg-black/60 rounded-md ${className}`}
+      className={cn(
+        "backdrop:bg-black/60 rounded-md scale-0 transition-all ease-in duration-300 bg-secondary shadow-lg ",
+        className
+      )}
+      style={{
+        opacity: 0,
+        transform: "scale(0.9)",
+        transition: "opacity 0.1s, transform 0.1s",
+      }}
     >
-      <div className="bg-secondary rounded-md shadow-lg w-96 p-6 relative ">
+      <div className=" rounded-md w-96 p-6 relative ">
         {/* Close Button */}
         <button
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+          className="absolute top-4 right-4 text-primary hover:text-gray-700"
           onClick={onClose}
         >
           ✖

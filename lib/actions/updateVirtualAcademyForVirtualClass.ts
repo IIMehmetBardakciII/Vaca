@@ -1,12 +1,19 @@
 "use server";
 
-import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
+import {
+  arrayUnion,
+  doc,
+  getDoc,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { initializeFirebaseClient } from "../firebaseClient/config";
 
 export async function updateVirtualAcademyDocForVirtualClass(
   virtualAcademyId: string,
   callId: string,
-  description: string
+  description: string,
+  startsAt?: string
 ) {
   const { db } = initializeFirebaseClient();
   const academyCollectionRef = doc(db, "virtualAcademies", virtualAcademyId);
@@ -19,7 +26,9 @@ export async function updateVirtualAcademyDocForVirtualClass(
         virtualClass: arrayUnion({
           id: callId,
           description: description,
-          startsAt: new Date().toISOString(),
+          startsAt: startsAt
+            ? Timestamp.fromDate(new Date(startsAt))
+            : Timestamp.now(), // Burada Timestamp'a dönüştürüyoruz
         }),
       });
     }

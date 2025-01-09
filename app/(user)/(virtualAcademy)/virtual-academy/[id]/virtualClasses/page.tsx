@@ -5,7 +5,7 @@ const VirtualClassesPage = async ({ params }: { params: { id: string } }) => {
   const getWholeVirtualClass = await getVirtualClasses(params.id);
 
   return (
-    <main className="grid w-full grid-cols-1 sm:grid-cols-4">
+    <main className="grid w-full grid-cols-1 sm:grid-cols-4 sm:gap-2 gap-1">
       {getWholeVirtualClass.map((virtualClassObject: any) => (
         <VirtualClassCard
           key={virtualClassObject.id}

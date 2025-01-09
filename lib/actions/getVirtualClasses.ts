@@ -6,7 +6,7 @@ import { initializeFirebaseClient } from "../firebaseClient/config";
 type VirtualClass = {
   id: string;
   description: string;
-  startsAt: Timestamp | Date; // Firestore'dan gelen veriler Timestamp formatında olabilir
+  startsAt: String | Timestamp | Date; // Firestore'dan gelen veriler Timestamp formatında olabilir
 };
 export async function getVirtualClasses(virtualAcademyId: string) {
   const { db } = initializeFirebaseClient();
@@ -24,8 +24,8 @@ export async function getVirtualClasses(virtualAcademyId: string) {
         description: virtualClass.description,
         startsAt:
           virtualClass.startsAt instanceof Timestamp
-            ? virtualClass.startsAt.toDate()
-            : virtualClass.startsAt, // Eğer Firestore Timestamp formatındaysa Date'e çevir
+            ? virtualClass.startsAt.toDate() // Timestamp verisini Date'e dönüştürüyoruz
+            : virtualClass.startsAt, // Eğer zaten Date ise, olduğu gibi bırak
       }));
     } else {
       console.error("Döküman bulunamadı.");
