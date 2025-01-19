@@ -49,7 +49,7 @@ const CommentsBox = ({
           >
             <div className="w-8 h-8 relative flex">
               <Image
-                src={commentDetail.user?.profilePicture}
+                src={commentDetail.user?.profilePicture || "/grid.jpg"}
                 alt="profilePicture"
                 fill
               />
