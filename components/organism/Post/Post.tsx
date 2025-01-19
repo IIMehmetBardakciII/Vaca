@@ -9,6 +9,7 @@ import Link from "next/link";
 import CommentArea from "./CommentArea";
 import CommentsBox from "./CommentsBox";
 import { getPostComments } from "@/lib/actions/getPostComments";
+import { getCookies } from "@/lib/actions/Cookies";
 
 type PostProps = {
   postData: PostType; // Post verisini alacak prop
@@ -21,14 +22,10 @@ const Post = async ({
   virtualAcademyId,
   collectionName,
 }: PostProps) => {
-  // const userData = await getUserData(postData.createdBy);
-  // const commentsData = await getPostComments({
-  //   postId: String(postData.postId),
-  //   virtualAcademyId,
-  //   collectionName: "Posts",
-  // });
+  const { verifiedToken } = await getCookies();
+  const userEmail = verifiedToken?.email || "";
 
-  const [userData, commentsData] = await Promise.all([
+  const [userDataFromPost, commentsData] = await Promise.all([
     getUserData(postData.createdBy),
     getPostComments({
       postId: String(postData.postId),
@@ -36,7 +33,8 @@ const Post = async ({
       collectionName,
     }),
   ]);
-  const userIsLiked = postData.reactions.includes(userData.email);
+
+  const userIsLiked = postData.reactions.includes(userEmail as string); // Şu anki kullanıcının beğeni durumu
 
   // Eğer Firebase Timestamp ise, Date objesine dönüştürme
   const postDate =
@@ -49,18 +47,20 @@ const Post = async ({
         <div className="flex gap-4 mb-4 h-[80px]  items-center">
           <div className="w-[80px] h-full relative rounded-full bg-slate-200 ">
             <Image
-              src={userData.profilePicture}
+              src={userDataFromPost.profilePicture}
               alt="profilePicture"
               fill
               className="rounded-full object-cover"
             />
           </div>
           <div className="group">
-            <Link href={`/profile/${userData.email}`}>
+            <Link href={`/profile/${userDataFromPost.email}`}>
               <h4 className="scroll-m-20 text-lg font-semibold tracking-tight group-hover:underline">
-                {userData.username}
+                {userDataFromPost.username}
               </h4>
-              <p className="text-xs text-muted-foreground">{userData.email}</p>
+              <p className="text-xs text-muted-foreground">
+                {userDataFromPost.email}
+              </p>
             </Link>
             <p className="text-xs text-muted-foreground">
               {postDate.toLocaleDateString("tr-TR")}
@@ -103,7 +103,7 @@ const Post = async ({
       {/* Button for comment & like */}
       <div className="w-full mb-2 flex items-center justify-center">
         <LikeButton
-          userId={userData.email}
+          userId={verifiedToken?.email as string}
           postId={postData.postId}
           virtualAcademyId={virtualAcademyId}
           isLiked={userIsLiked}
@@ -112,8 +112,8 @@ const Post = async ({
         <CommentButton />
       </div>
       <CommentArea
-        userProfilePictureUrl={userData?.profilePicture}
-        userId={userData.email}
+        userProfilePictureUrl={verifiedToken?.profilePicture as string}
+        userId={verifiedToken?.email as string}
         postId={postData.postId}
         virtualAcademyId={virtualAcademyId}
         collectionName={collectionName}
@@ -122,7 +122,7 @@ const Post = async ({
         collectionName={collectionName}
         postId={postData.postId}
         virtualAcademyId={virtualAcademyId}
-        userId={userData.email}
+        userId={verifiedToken?.email as string}
         commentsData={commentsData}
       />
     </div>
