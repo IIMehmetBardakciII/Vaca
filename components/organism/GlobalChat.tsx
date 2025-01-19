@@ -40,22 +40,46 @@ const GlobalChat = ({ virtualAcademyData }: GlobalChatProps) => {
     const initializationChannel = async () => {
       if (!chatClient || !virtualAcademyData.id) return;
 
-      // Kullanıcıları admin yapma
-      const membersWithValidIds = virtualAcademyData.members.map((member) => {
-        const validUserId = member.userId.replace(/\./g, "_");
-        return validUserId;
-      });
+      try {
+        // Kullanıcıları oluşturma işlemi
+        for (const member of virtualAcademyData.members) {
+          const validUserId = member.userId.replace(/\./g, "_");
 
-      // Kanal oluşturma işlemi
-      const channel = chatClient.channel("messaging", virtualAcademyData.id, {
-        image: virtualAcademyData.imageFileUrl,
-        name: virtualAcademyData.academyName || "Akademi Global Chat",
-        members: membersWithValidIds, // Kanal üyeleri
-      });
+          // Kullanıcıyı oluşturma
+          await chatClient.upsertUser({
+            id: validUserId,
+            name: member.username || "Anonymous",
+            image: member.profilePicture || "",
+          });
 
-      // Kanalın oluşturulmasını bekle
-      await channel.create();
-      setChannelId(channel.id);
+          // Kullanıcıyı güncelleme (isteğe bağlı alanları ayarlamak için)
+          await chatClient.partialUpdateUser({
+            id: validUserId,
+            set: {
+              teams: ["team_name"], // Kullanıcıyı bir takıma eklemek için
+            },
+          });
+        }
+
+        console.log("Users successfully created or updated.");
+
+        // Kanal oluşturma işlemi
+        const membersWithValidIds = virtualAcademyData.members.map((member) =>
+          member.userId.replace(/\./g, "_")
+        );
+
+        const channel = chatClient.channel("messaging", virtualAcademyData.id, {
+          image: virtualAcademyData.imageFileUrl,
+          name: virtualAcademyData.academyName || "Akademi Global Chat",
+          members: membersWithValidIds,
+        });
+
+        await channel.watch();
+        console.log("Channel successfully created:", channel.id);
+        setChannelId(channel.id);
+      } catch (error) {
+        console.error("Error during channel initialization:", error);
+      }
     };
 
     initializationChannel();
