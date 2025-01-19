@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 type CommentAreaType = {
-  userProfilePictureUrl: string;
+  userProfilePictureUrl?: string;
   userId: string;
   postId: number;
   virtualAcademyId: string;
@@ -37,12 +37,12 @@ const CommentArea = ({
     <div className="px-4 mb-4">
       {/* Comment input area */}
       <div className="flex items-center">
-        <div className="w-12 h-12 relative px-2 ">
+        <div className="w-8 h-8 relative px-2 ">
           <Image
-            src={userProfilePictureUrl}
+            src={userProfilePictureUrl || "MaleStudent.png"}
             alt="userProfilePicture"
             fill
-            className="object-cover"
+            className="object-contain"
           />
         </div>
         <Input
