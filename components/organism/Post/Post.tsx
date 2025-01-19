@@ -54,7 +54,7 @@ const Post = async ({
             />
           </div>
           <div className="group">
-            <Link href={`/profile/${userDataFromPost.email}`}>
+            <Link href={`#`}>
               <h4 className="scroll-m-20 text-lg font-semibold tracking-tight group-hover:underline">
                 {userDataFromPost.username}
               </h4>
